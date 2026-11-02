@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S&amp;P 500 Factor Portfolio</title>
+<meta name="description" content="A long-only US$10M S&P 500 portfolio built with statistical screening, a Carhart four-factor model and quadratic optimisation, tested in a quarterly walk-forward against SPY.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light;
+    --surface-0: #f4f3f0; --surface-1: #fcfcfb; --border: #e2e0da; --grid: #ebe9e4;
+    --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #7a7974;
+    --series-1: #2a78d6; --series-2: #eb6834; --bar: #2a78d6;
+    --good: #0ca30c; --good-text: #006300; --critical-text: #b42f2f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark; --surface-0: #121211; --surface-1: #1a1a19; --border: #2e2e2b; --grid: #262624;
+      --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
+      --series-1: #3987e5; --series-2: #d95926; --bar: #3987e5; --good-text: #4cc94c; --critical-text: #f07b7b;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark; --surface-0: #121211; --surface-1: #1a1a19; --border: #2e2e2b; --grid: #262624;
+    --text-primary: #f0efec; --text-secondary: #c3c2b7; --text-muted: #8f8e86;
+    --series-1: #3987e5; --series-2: #d95926; --bar: #3987e5; --good-text: #4cc94c; --critical-text: #f07b7b;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--surface-0); color: var(--text-primary); font: 15px/1.55 Inter, system-ui, sans-serif; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 32px 16px 64px; }
+  .kicker { color: var(--text-muted); font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  h1 { font-size: 28px; line-height: 1.15; margin: 6px 0 8px; letter-spacing: -0.02em; }
+  h2 { font-size: 17px; margin: 0 0 4px; }
+  .sub { color: var(--text-secondary); margin: 0 0 8px; max-width: 760px; }
+  .meta { color: var(--text-muted); font-size: 13px; margin-bottom: 20px; }
+  .live { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--text-primary); }
+  .live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--good); }
+  .links a { margin-right: 18px; font-weight: 600; color: var(--text-primary); }
+  .card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .grid4 > *, .grid2 > * { min-width: 0; }
+  .grid4 .card, .grid2 .card { margin-bottom: 0; }
+  @media (max-width: 960px) { .grid4 { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 760px) { .grid2, .grid4 { grid-template-columns: 1fr; } }
+  .label { color: var(--text-secondary); font-size: 13px; font-weight: 500; }
+  .big { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; margin: 4px 0 2px; }
+  .note { color: var(--text-muted); font-size: 13px; margin: 0; }
+  .up { color: var(--good-text); } .down { color: var(--critical-text); }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--text-secondary); margin: 10px 0 8px; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  .chart-box { position: relative; height: 290px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+  th, td { padding: 7px 6px; text-align: right; border-bottom: 1px solid var(--grid); }
+  th:first-child, td:first-child, .left { text-align: left; }
+  th { color: var(--text-secondary); font-weight: 500; }
+  .table-scroll { overflow-x: auto; }
+  .wbar { display: inline-block; height: 8px; border-radius: 0 4px 4px 0; background: var(--bar); vertical-align: middle; margin-right: 8px; }
+  ol { margin: 8px 0 0; padding-left: 18px; color: var(--text-secondary); }
+  li { margin-bottom: 6px; }
+  footer { margin-top: 28px; color: var(--text-muted); font-size: 13px; }
+  footer a { color: var(--text-primary); }
+  .err { color: var(--critical-text); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Group project · ECOM6003 Predictive Analytics in Business · Curtin University</div>
+  <h1>S&amp;P 500 factor portfolio: screening, Carhart and quadratic optimisation</h1>
+  <p class="sub">A long-only US$10M portfolio of S&amp;P 500 stocks. Each quarter the pipeline screens every constituent for a significant Sharpe ratio and a stable beta, estimates expected returns with the Carhart four-factor model, builds a covariance matrix, and solves a quadratic programme with sector caps. It is then held to the next rebalance and judged out of sample against SPY.</p>
+  <div class="meta"><span class="live" id="through">Loading…</span> <span id="gen"></span></div>
+  <p class="links"><a href="report.html">Full notebook with outputs →</a><a href="https://github.com/DavidLindarte/sp500-carhart-portfolio">Source code →</a></p>
+
+  <div class="grid4" id="tiles"></div>
+
+  <div class="grid2">
+    <section class="card">
+      <h2>US$10M walk-forward vs SPY</h2>
+      <p class="note">Value at each rebalance date, compounding the realised capital. The last point is the unrebalanced hold to date.</p>
+      <div class="legend"><span><span class="swatch" style="background:var(--series-1)"></span>Portfolio</span><span><span class="swatch" style="background:var(--series-2)"></span>SPY buy-and-hold</span></div>
+      <div class="chart-box"><canvas id="cumChart" aria-label="Cumulative value chart"></canvas></div>
+    </section>
+    <section class="card">
+      <h2>Quarter by quarter</h2>
+      <p class="note">Each quarter's portfolio is rebuilt from scratch using only data available at that date.</p>
+      <div class="table-scroll"><table id="qTable" style="margin-top:10px"></table></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2 id="recTitle">Current target allocation</h2>
+    <p class="note" id="recNote"></p>
+    <div class="table-scroll"><table id="holdings" style="margin-top:10px"></table></div>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <h2>Downside: VaR backtest</h2>
+      <p class="note">1-day historical-simulation VaR, estimated at each construction date, then checked against realised daily losses during the holding period.</p>
+      <div class="table-scroll"><table id="varTable" style="margin-top:10px"></table></div>
+      <p class="note" id="kupiec" style="margin-top:10px"></p>
+    </section>
+    <section class="card">
+      <h2>Pipeline</h2>
+      <ol>
+        <li><b>Universe:</b> current S&amp;P 500 constituents with GICS sectors. Daily adjusted prices (Yahoo Finance) as log returns. Carhart factors from the Ken French data library.</li>
+        <li><b>Screening:</b> Lo (2002)-adjusted Sharpe-ratio significance, positive beta, and beta stability (Chow / Quandt–Andrews break tests).</li>
+        <li><b>Expected returns:</b> a Carhart four-factor regression per stock, with VIF checks and a ridge fallback. Compared against CAPM and Fama–French 3 using out-of-sample RMSE and Diebold–Mariano tests.</li>
+        <li><b>Risk:</b> the sample covariance when the estimation window has enough observations, otherwise a factor-model covariance Ω = BΣ<sub>F</sub>B′ + D.</li>
+        <li><b>Construction:</b> QP with cvxpy: long-only, 25% sector cap, L1 penalty λ chosen by sensitivity analysis.</li>
+        <li><b>Policy:</b> estimation window and rebalance frequency chosen on a separate 2-year comparison period (adopted: 3-year window, 63-day rebalancing). The walk-forward never touches that period.</li>
+      </ol>
+    </section>
+  </div>
+
+  <footer>
+    Group project, MSc Predictive Analytics, Curtin University (2026). Re-executed monthly on fresh data by GitHub Actions. Educational project, not investment advice.<br>
+    <a href="https://davidlindarte.github.io">David Lindarte Burgos</a> · <a href="https://github.com/DavidLindarte/sp500-carhart-portfolio">Source code</a>
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const pct = (x, d = 1) => x == null ? "–" : (x >= 0 ? "+" : "") + (x * 100).toFixed(d) + "%";
+const cls = x => x == null ? "" : (x >= 0 ? "up" : "down");
+const usd = x => "$" + (x / 1e6).toFixed(2) + "M";
+let D, chart;
+
+function render() {
+  const t = D.totals, v = D.var, q = D.quarters, rec = D.recommendation;
+  document.getElementById("through").textContent = "Market data through " + D.data_through;
+  document.getElementById("gen").textContent = " · last run " + D.generated_utc.slice(0, 10);
+  const alpha = t.portfolio_return - t.spy_return;
+  const last = D.cumulative[D.cumulative.length - 1];
+  document.getElementById("tiles").innerHTML = `
+    <div class="card"><div class="label">Portfolio since ${D.policy.walk_forward_start}</div><div class="big ${cls(t.portfolio_return)}">${pct(t.portfolio_return)}</div><p class="note">US$10M → ${usd(last.portfolio_value)}</p></div>
+    <div class="card"><div class="label">SPY, same period</div><div class="big ${cls(t.spy_return)}">${pct(t.spy_return)}</div><p class="note">US$10M → ${usd(last.spy_value)}</p></div>
+    <div class="card"><div class="label">Cumulative alpha</div><div class="big ${cls(alpha)}">${pct(alpha, 2)}</div><p class="note">${q.filter(r => r.alpha > 0).length} of ${q.length} periods beat SPY</p></div>
+    <div class="card"><div class="label">VaR model (Kupiec)</div><div class="big ${v.kupiec_p >= 0.05 ? "up" : "down"}">${v.kupiec_p >= 0.05 ? "✓ Valid" : "✕ Rejected"}</div><p class="note">${v.breaches} breaches in ${v.days} days, p = ${v.kupiec_p.toFixed(2)}</p></div>`;
+
+  document.getElementById("qTable").innerHTML =
+    `<tr><th>Period</th><th>Held</th><th>Stocks</th><th>Portfolio</th><th>SPY</th><th>Alpha</th></tr>` +
+    q.map(r => `<tr><td>Q${r.quarter}${r.n_stocks == null ? " (to date)" : ""}</td><td class="left" style="white-space:nowrap">${r.as_of_date.slice(2)} → ${r.period_end.slice(2)}</td><td>${r.n_stocks == null ? "–" : r.n_stocks}</td>
+      <td class="${cls(r.portfolio_return)}">${pct(r.portfolio_return)}</td><td class="${cls(r.spy_return)}">${pct(r.spy_return)}</td><td class="${cls(r.alpha)}">${pct(r.alpha)}</td></tr>`).join("");
+
+  const maxW = Math.max(...rec.holdings.map(h => h.weight));
+  document.getElementById("recTitle").textContent = `Current target allocation (${rec.holdings.length} stocks)`;
+  document.getElementById("recNote").textContent = `Target weights from the ${rec.as_of} construction (${rec.window_years}-year estimation window), applied to a fresh US$10M. Expected return is the Carhart estimate to the next rebalance. These are model point estimates and are noisy.`;
+  document.getElementById("holdings").innerHTML =
+    `<tr><th>Ticker</th><th class="left">Sector</th><th class="left" style="min-width:180px">Weight</th><th>US$</th><th>Expected to next rebalance</th></tr>` +
+    rec.holdings.map(h => `<tr><td><b>${h.ticker}</b></td><td class="left">${h.sector}</td>
+      <td class="left"><span class="wbar" style="width:${Math.round(h.weight / maxW * 120)}px"></span>${(h.weight * 100).toFixed(2)}%</td>
+      <td>${Math.round(h.weight * 1e7).toLocaleString("en-US")}</td><td>${pct(h.expected_return_next_rebalance)}</td></tr>`).join("");
+
+  document.getElementById("varTable").innerHTML =
+    `<tr><th>Period</th><th>VaR 95% (1-day)</th><th>Days</th><th>Breaches</th><th>Rate</th></tr>` +
+    v.by_quarter.map(r => `<tr><td>Q${r.quarter}</td><td>${(r.var_95_pct * 100).toFixed(2)}%</td><td>${r.days_held}</td><td>${r.breaches}</td><td>${(r.breach_rate * 100).toFixed(1)}%</td></tr>`).join("");
+  document.getElementById("kupiec").textContent =
+    `Kupiec test: ${(v.breaches / v.days * 100).toFixed(2)}% observed vs ${((1 - v.confidence) * 100).toFixed(0)}% expected, LR = ${v.kupiec_lr.toFixed(3)}, p = ${v.kupiec_p.toFixed(3)}. ` +
+    (v.kupiec_p >= 0.05 ? "Correct coverage is not rejected." : "Coverage is rejected.");
+  draw();
+}
+
+function draw() {
+  if (chart) chart.destroy();
+  const c = [{ period_end: D.policy.walk_forward_start, portfolio_value: D.policy.initial_capital, spy_value: D.policy.initial_capital }, ...D.cumulative];
+  const grid = css("--grid"), muted = css("--text-muted");
+  chart = new Chart(document.getElementById("cumChart"), {
+    type: "line",
+    data: { labels: c.map(r => r.period_end), datasets: [
+      { label: "Portfolio", data: c.map(r => r.portfolio_value), borderColor: css("--series-1"), backgroundColor: css("--series-1"), pointRadius: 3 },
+      { label: "SPY", data: c.map(r => r.spy_value), borderColor: css("--series-2"), backgroundColor: css("--series-2"), pointRadius: 3 } ] },
+    options: { responsive: true, maintainAspectRatio: false, animation: false, interaction: { mode: "index", intersect: false },
+      elements: { line: { borderWidth: 2 } },
+      plugins: { legend: { display: false }, tooltip: { backgroundColor: css("--surface-1"), titleColor: css("--text-primary"), bodyColor: css("--text-secondary"),
+        borderColor: css("--border"), borderWidth: 1, padding: 10, usePointStyle: true, callbacks: { label: x => ` ${x.dataset.label}: ${usd(x.parsed.y)}` } } },
+      scales: { x: { grid: { display: false }, ticks: { color: muted, maxRotation: 0 } },
+                y: { grid: { color: grid }, border: { display: false }, ticks: { color: muted, callback: v => "$" + (v / 1e6).toFixed(1) + "M" } } } },
+  });
+}
+
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => D && draw());
+fetch("data/latest.json", { cache: "no-store" })
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(d => { D = d; render(); })
+  .catch(e => { document.getElementById("through").innerHTML = `<span class="err">Could not load results (${e.message})</span>`; });
+</script>
+</body>
+</html>

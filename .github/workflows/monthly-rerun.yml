@@ -1,0 +1,48 @@
+name: monthly-rerun
+
+# Re-executes the whole notebook on fresh market data once a month: S&P 500 universe
+# (Wikipedia), prices (Yahoo Finance) and Carhart factors (Ken French data library).
+# The walk-forward loop picks up every new completed quarter by itself, the dashboard
+# JSON is re-exported and the static report is re-rendered.
+on:
+  schedule:
+    - cron: "0 3 6 * *"        # 6th of each month, 03:00 UTC (11:00 Perth)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: monthly-rerun
+  cancel-in-progress: false
+
+jobs:
+  rerun:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Execute notebook on fresh data
+        run: |
+          papermill notebooks/sp500_carhart_portfolio.ipynb notebooks/sp500_carhart_portfolio.ipynb \
+            --cwd . --kernel python3 --log-output
+
+      - name: Render static report
+        run: bash scripts/build_report.sh
+
+      - name: Commit results
+        run: |
+          git config user.name "portfolio-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add notebooks/ docs/
+          git commit -m "rerun: data through $(jq -r .data_through docs/data/latest.json)" || echo "No changes"
+          git push
