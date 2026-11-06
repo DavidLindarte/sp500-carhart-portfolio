@@ -1,6 +1,6 @@
 {
- "generated_utc": "2026-11-02T11:46:18+00:00",
- "data_through": "2026-10-30",
+ "generated_utc": "2026-11-06T10:17:03+00:00",
+ "data_through": "2026-11-05",
  "policy": {
   "window_years": 3,
   "rebalance_days": 63,
@@ -15,11 +15,11 @@
    "period_end": "2025-12-03",
    "n_stocks": 24.0,
    "window_years": 3.0,
-   "capital_start": 10000000.0,
-   "capital_end": 9535170.61580858,
-   "portfolio_return": -0.04648293841914197,
-   "spy_return": 0.0564858375592574,
-   "alpha": -0.10296877597839937
+   "capital_start": 9999999.989999998,
+   "capital_end": 9535170.518468868,
+   "portfolio_return": -0.046482947199596,
+   "spy_return": 0.05648573687038594,
+   "alpha": -0.10296868406998194
   },
   {
    "quarter": 2,
@@ -27,11 +27,11 @@
    "period_end": "2026-03-06",
    "n_stocks": 27.0,
    "window_years": 3.0,
-   "capital_start": 9535170.610000003,
-   "capital_end": 9949120.977868471,
-   "portfolio_return": 0.043413000647763766,
+   "capital_start": 9535170.530000001,
+   "capital_end": 9949120.913307909,
+   "portfolio_return": 0.043413002631208064,
    "spy_return": -0.013925069319535077,
-   "alpha": 0.057338069967298844
+   "alpha": 0.05733807195074314
   },
   {
    "quarter": 3,
@@ -39,11 +39,11 @@
    "period_end": "2026-06-05",
    "n_stocks": 17.0,
    "window_years": 3.0,
-   "capital_start": 9949120.95,
-   "capital_end": 11764122.530935636,
-   "portfolio_return": 0.1824283361371375,
-   "spy_return": 0.09992007974460648,
-   "alpha": 0.08250825639253101
+   "capital_start": 9949120.92,
+   "capital_end": 11764122.244721515,
+   "portfolio_return": 0.18242831093478307,
+   "spy_return": 0.09992018036949402,
+   "alpha": 0.08250813056528905
   },
   {
    "quarter": 4,
@@ -51,67 +51,67 @@
    "period_end": "2026-09-04",
    "n_stocks": 26.0,
    "window_years": 3.0,
-   "capital_start": 11764122.530000001,
-   "capital_end": 11862273.098959424,
-   "portfolio_return": 0.008343212059303662,
+   "capital_start": 11764122.23,
+   "capital_end": 11862272.669086155,
+   "portfolio_return": 0.008343201232290598,
    "spy_return": 0.04694491742237794,
-   "alpha": -0.03860170536307428
+   "alpha": -0.03860171619008734
   },
   {
    "quarter": 5,
    "as_of_date": "2026-09-04",
-   "period_end": "2026-10-30",
+   "period_end": "2026-11-05",
    "n_stocks": null,
    "window_years": null,
-   "capital_start": 11862273.098959424,
-   "capital_end": 10822935.119988658,
-   "portfolio_return": -0.08761710089628083,
-   "spy_return": -0.016351095242150615,
-   "alpha": -0.07126600565413022
+   "capital_start": 11862272.669086155,
+   "capital_end": 10255594.746999757,
+   "portfolio_return": -0.13544435934890475,
+   "spy_return": -0.04592352307870262,
+   "alpha": -0.08952083627020213
   }
  ],
  "cumulative": [
   {
    "quarter": 1,
    "period_end": "2025-12-03",
-   "portfolio_value": 9535170.61580858,
-   "spy_value": 10564858.375592574,
-   "cumulative_alpha": -0.09746347023097124
+   "portfolio_value": 9535170.518468868,
+   "spy_value": 10564857.368703859,
+   "cumulative_alpha": -0.09746339342783927
   },
   {
    "quarter": 2,
    "period_end": "2026-03-06",
-   "portfolio_value": 9949120.977868471,
-   "spy_value": 10417741.990361378,
-   "cumulative_alpha": -0.04498297355861569
+   "portfolio_value": 9949120.913307909,
+   "spy_value": 10417740.997493656,
+   "cumulative_alpha": -0.04498288873744216
   },
   {
    "quarter": 3,
    "period_end": "2026-06-05",
-   "portfolio_value": 11764122.530935636,
-   "spy_value": 11458683.600797022,
-   "cumulative_alpha": 0.026655673616589715
+   "portfolio_value": 11764122.244721515,
+   "spy_value": 11458683.557005895,
+   "cumulative_alpha": 0.02665565256218927
   },
   {
    "quarter": 4,
    "period_end": "2026-09-04",
-   "portfolio_value": 11862273.098959424,
-   "spy_value": 11996610.556205595,
-   "cumulative_alpha": -0.011197951005976536
+   "portfolio_value": 11862272.669086155,
+   "spy_value": 11996610.510358697,
+   "cumulative_alpha": -0.01119798306001063
   },
   {
    "quarter": 5,
-   "period_end": "2026-10-30",
-   "portfolio_value": 10822935.119988658,
-   "spy_value": 11800452.834418088,
-   "cumulative_alpha": -0.08283730532597267
+   "period_end": "2026-11-05",
+   "portfolio_value": 10255594.746999757,
+   "spy_value": 11445683.890720032,
+   "cumulative_alpha": -0.10397711094268292
   }
  ],
  "totals": {
-  "portfolio_return": 0.0822935119988657,
-  "spy_return": 0.18004528344180892,
-  "full_periods_portfolio_return": 0.18622730989594238,
-  "full_periods_spy_return": 0.19966105562055958
+  "portfolio_return": 0.02555947469997566,
+  "spy_return": 0.1445683890720033,
+  "full_periods_portfolio_return": 0.18622726690861535,
+  "full_periods_spy_return": 0.19966105103586962
  },
  "var": {
   "confidence": 0.95,
@@ -121,7 +121,7 @@
     "as_of_date": "2025-09-04",
     "period_end": "2025-12-03",
     "window_years": 3,
-    "var_95_pct": 0.018775595780082307,
+    "var_95_pct": 0.018775560624984106,
     "days_held": 63,
     "breaches": 3,
     "breach_rate": 0.047619047619047616
@@ -131,7 +131,7 @@
     "as_of_date": "2025-12-03",
     "period_end": "2026-03-06",
     "window_years": 3,
-    "var_95_pct": 0.024323340606927944,
+    "var_95_pct": 0.02432332475355513,
     "days_held": 63,
     "breaches": 3,
     "breach_rate": 0.047619047619047616
@@ -141,7 +141,7 @@
     "as_of_date": "2026-03-06",
     "period_end": "2026-06-05",
     "window_years": 3,
-    "var_95_pct": 0.013567835373358027,
+    "var_95_pct": 0.013567834536779491,
     "days_held": 63,
     "breaches": 5,
     "breach_rate": 0.07936507936507936
@@ -151,7 +151,7 @@
     "as_of_date": "2026-06-05",
     "period_end": "2026-09-04",
     "window_years": 3,
-    "var_95_pct": 0.020501150797798903,
+    "var_95_pct": 0.020501175120034146,
     "days_held": 63,
     "breaches": 3,
     "breach_rate": 0.047619047619047616
@@ -169,158 +169,158 @@
    {
     "ticker": "LITE",
     "sector": "Information Technology",
-    "weight": 0.07415579609402367,
+    "weight": 0.07415579508521475,
     "expected_return_next_rebalance": 0.26621563294830364
    },
    {
     "ticker": "HWM",
     "sector": "Industrials",
-    "weight": 0.06206843499966943,
-    "expected_return_next_rebalance": 0.15626352147608702
+    "weight": 0.06206843915493712,
+    "expected_return_next_rebalance": 0.15626353810077287
    },
    {
     "ticker": "COHR",
     "sector": "Information Technology",
-    "weight": 0.05522042864548645,
+    "weight": 0.0552204275565278,
     "expected_return_next_rebalance": 0.21210234989139787
    },
    {
     "ticker": "DELL",
     "sector": "Information Technology",
-    "weight": 0.05391635459167352,
-    "expected_return_next_rebalance": 0.20344682956883875
+    "weight": 0.05391635356798182,
+    "expected_return_next_rebalance": 0.2034468284481039
    },
    {
     "ticker": "GE",
     "sector": "Industrials",
-    "weight": 0.049603030412756065,
+    "weight": 0.049603028534158725,
     "expected_return_next_rebalance": 0.12323330116082176
    },
    {
     "ticker": "BNY",
     "sector": "Financials",
-    "weight": 0.04646338911452857,
-    "expected_return_next_rebalance": 0.11375592435725279
+    "weight": 0.04646338045197244,
+    "expected_return_next_rebalance": 0.1137559061094291
    },
    {
     "ticker": "TPR",
     "sector": "Consumer Discretionary",
-    "weight": 0.045953688043790276,
-    "expected_return_next_rebalance": 0.1146713942762736
+    "weight": 0.04595368979588703,
+    "expected_return_next_rebalance": 0.11467140360612538
    },
    {
     "ticker": "CASY",
     "sector": "Consumer Staples",
-    "weight": 0.04444159868675293,
-    "expected_return_next_rebalance": 0.10761898503170597
+    "weight": 0.04444159953135589,
+    "expected_return_next_rebalance": 0.10761899133932618
    },
    {
     "ticker": "RL",
     "sector": "Consumer Discretionary",
-    "weight": 0.04336999784957156,
-    "expected_return_next_rebalance": 0.1079133512574948
+    "weight": 0.043369998542133116,
+    "expected_return_next_rebalance": 0.10791335785917933
    },
    {
     "ticker": "C",
     "sector": "Financials",
-    "weight": 0.040907525320628496,
-    "expected_return_next_rebalance": 0.10106812335653892
+    "weight": 0.04090752059679196,
+    "expected_return_next_rebalance": 0.10106811498716528
    },
    {
     "ticker": "GOOGL",
     "sector": "Communication Services",
-    "weight": 0.03876129138710888,
-    "expected_return_next_rebalance": 0.09469415559497207
+    "weight": 0.03876129033034097,
+    "expected_return_next_rebalance": 0.09469415559497274
    },
    {
     "ticker": "GOOG",
     "sector": "Communication Services",
-    "weight": 0.03831490328035441,
-    "expected_return_next_rebalance": 0.09354922945480415
+    "weight": 0.03831489972870677,
+    "expected_return_next_rebalance": 0.09354922389023512
    },
    {
     "ticker": "MS",
     "sector": "Financials",
-    "weight": 0.03628742871655422,
-    "expected_return_next_rebalance": 0.08946345976899361
+    "weight": 0.03628742742102949,
+    "expected_return_next_rebalance": 0.08946345976899339
    },
    {
     "ticker": "TT",
     "sector": "Industrials",
-    "weight": 0.03583083962180024,
-    "expected_return_next_rebalance": 0.0875796596231313
+    "weight": 0.035830841520173365,
+    "expected_return_next_rebalance": 0.08757966793282113
    },
    {
     "ticker": "WAB",
     "sector": "Industrials",
-    "weight": 0.03580024974418085,
-    "expected_return_next_rebalance": 0.087389735135742
+    "weight": 0.03580025495498065,
+    "expected_return_next_rebalance": 0.08738974966181035
    },
    {
     "ticker": "NTRS",
     "sector": "Financials",
-    "weight": 0.0332317106502705,
-    "expected_return_next_rebalance": 0.08090744008783868
+    "weight": 0.03323171342182087,
+    "expected_return_next_rebalance": 0.08090745039343017
    },
    {
     "ticker": "STT",
     "sector": "Financials",
-    "weight": 0.03252667006731822,
-    "expected_return_next_rebalance": 0.07916147643689331
+    "weight": 0.0325266767679341,
+    "expected_return_next_rebalance": 0.07916149641505288
    },
    {
     "ticker": "AVGO",
     "sector": "Information Technology",
-    "weight": 0.03212003765868217,
-    "expected_return_next_rebalance": 0.14419899833187366
+    "weight": 0.03212004530914545,
+    "expected_return_next_rebalance": 0.1441990173423815
    },
    {
     "ticker": "HLT",
     "sector": "Consumer Discretionary",
-    "weight": 0.031854212660436844,
-    "expected_return_next_rebalance": 0.07695270229855544
+    "weight": 0.031854215493351615,
+    "expected_return_next_rebalance": 0.07695271202301845
    },
    {
     "ticker": "JPM",
     "sector": "Financials",
-    "weight": 0.03148673787391964,
-    "expected_return_next_rebalance": 0.07617086164471698
+    "weight": 0.03148672762995768,
+    "expected_return_next_rebalance": 0.07617084029080612
    },
    {
     "ticker": "ROST",
     "sector": "Consumer Discretionary",
-    "weight": 0.030161301597451402,
+    "weight": 0.030161301580222878,
     "expected_return_next_rebalance": 0.07211549777749382
    },
    {
     "ticker": "TJX",
     "sector": "Consumer Discretionary",
-    "weight": 0.027573724083360427,
+    "weight": 0.0275737228752311,
     "expected_return_next_rebalance": 0.0649031802198099
    },
    {
     "ticker": "NI",
     "sector": "Utilities",
-    "weight": 0.023998493847185894,
+    "weight": 0.023998493585298326,
     "expected_return_next_rebalance": 0.05590191344868889
    },
    {
     "ticker": "JBL",
     "sector": "Information Technology",
-    "weight": 0.023247377601093362,
-    "expected_return_next_rebalance": 0.1201563515479136
+    "weight": 0.023247372645343017,
+    "expected_return_next_rebalance": 0.12015633583106977
    },
    {
     "ticker": "CB",
     "sector": "Financials",
-    "weight": 0.021364772042361115,
-    "expected_return_next_rebalance": 0.04875397362448575
+    "weight": 0.021364778083715726,
+    "expected_return_next_rebalance": 0.048753988211084565
    },
    {
     "ticker": "FFIV",
     "sector": "Information Technology",
-    "weight": 0.011340005409040819,
-    "expected_return_next_rebalance": 0.08710505361544363
+    "weight": 0.011340005835787165,
+    "expected_return_next_rebalance": 0.0871050536154434
    }
   ]
  }
